@@ -9,7 +9,7 @@ A terça parte de 3,5 é 1,16666
 package org.example.passo01;
 import java.util.Scanner;
 
-public class DoubleThirdPart {
+public class Ex07_DoubleThirdPart {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
