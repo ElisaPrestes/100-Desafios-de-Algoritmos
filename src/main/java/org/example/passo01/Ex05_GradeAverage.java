@@ -7,7 +7,6 @@ A média entre 4.5 e 8.5 é igual a 6.5
 */
 
 package org.example.passo01;
-
 import java.util.Scanner;
 
 public class Ex05_GradeAverage {
