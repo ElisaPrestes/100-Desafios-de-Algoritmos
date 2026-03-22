@@ -30,7 +30,7 @@ public class Ex03_EmployeeInfo {
 
         //usa-se format string com printf, como no Python, mas as variáveis vêm depois
         //%s  -> indica string  %.2f -> indica que usaremos 2 casas decimais
-        System.out.printf("%s tem um salário de R$%.2f em %s.", empName, empSalary, currentMonth);
+        System.out.printf("%s tem um salário de R$%.2f em %s.%n", empName, empSalary, currentMonth);
 
         myObj.close();
     }
