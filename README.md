@@ -12,7 +12,7 @@
 <!-- PROGRESS_START — não edite este bloco, o GitHub Actions atualiza automaticamente -->
 <div align="center">
 
-![Progresso](./progress.sv)
+![Progresso](./progress.svg)
 
 ![badge](https://img.shields.io/badge/Desafios%20Conclu%C3%ADdos-21%20%2F%20100-1d4ed8?style=for-the-badge&logo=checkmarx&logoColor=white)
 &nbsp;
