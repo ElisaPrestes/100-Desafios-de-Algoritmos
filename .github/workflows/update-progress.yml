@@ -36,47 +36,108 @@ jobs:
           python3 - << 'PYEOF'
           import os
 
-          total  = int(os.environ.get("TOTAL",  "0"))
-          java   = int(os.environ.get("JAVA",   "0"))
-          python = int(os.environ.get("PYTHON", "0"))
+          total = int(os.environ.get("TOTAL", "0"))
 
-          TRACK_W = 608
-          TRACK_X = 16
-          filled_w = max(0, min(TRACK_W, round(TRACK_W * total / 100)))
-          pct_x    = TRACK_X + TRACK_W // 2
-          mark25   = TRACK_X + round(TRACK_W * 0.25)
-          mark50   = TRACK_X + round(TRACK_W * 0.50)
-          mark75   = TRACK_X + round(TRACK_W * 0.75)
+          # barra: trilho x=22, largura máxima=636, altura=12
+          filled = max(0, min(636, round(636 * total / 100)))
+          # camadas da barra (efeito pixel degradê)
+          f1 = filled
+          f2 = max(0, filled // 2)
+          f3 = max(0, filled // 4)
+          # ponta highlight (4px antes do fim, só se tiver espaço)
+          tip_x = 22 + filled - 4 if filled >= 8 else 22
 
-          svg = f"""<svg xmlns="http://www.w3.org/2000/svg" width="640" height="80" viewBox="0 0 640 80">
-            <defs>
-              <linearGradient id="barGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%"   style="stop-color:#1d4ed8;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#38bdf8;stop-opacity:1" />
-              </linearGradient>
-              <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%"   style="stop-color:#1e293b;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#0f172a;stop-opacity:1" />
-              </linearGradient>
-              <clipPath id="barClip">
-                <rect x="{TRACK_X}" y="38" width="{TRACK_W}" height="22" rx="11"/>
-              </clipPath>
-            </defs>
-            <rect width="640" height="80" rx="12" fill="url(#bgGrad)"/>
-            <text x="16" y="28" font-family="Courier New, monospace" font-size="12" fill="#94a3b8" letter-spacing="2">PROGRESSO</text>
-            <text x="624" y="28" font-family="Courier New, monospace" font-size="13" fill="#38bdf8" text-anchor="end" font-weight="bold">{total} / 100</text>
-            <rect x="{TRACK_X}" y="38" width="{TRACK_W}" height="22" rx="11" fill="#1e3a5f" opacity="0.8"/>
-            <rect x="{TRACK_X}" y="38" width="{filled_w}" height="22" rx="11" fill="url(#barGrad)" clip-path="url(#barClip)"/>
-            <rect x="{TRACK_X}" y="38" width="{filled_w}" height="10" rx="5" fill="white" opacity="0.12" clip-path="url(#barClip)"/>
-            <line x1="{mark25}" y1="38" x2="{mark25}" y2="60" stroke="#0f172a" stroke-width="1.5" opacity="0.6"/>
-            <line x1="{mark50}" y1="38" x2="{mark50}" y2="60" stroke="#0f172a" stroke-width="1.5" opacity="0.6"/>
-            <line x1="{mark75}" y1="38" x2="{mark75}" y2="60" stroke="#0f172a" stroke-width="1.5" opacity="0.6"/>
-            <text x="{pct_x}" y="53" font-family="Courier New, monospace" font-size="11" fill="#cbd5e1" text-anchor="middle" font-weight="bold">{total}%</text>
-          </svg>"""
+          svg = f"""<svg width="100%" viewBox="0 0 680 90" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Progresso {total}/100 desafios</title>
+  <desc>Pixel art barra de progresso — céu estrelado noturno</desc>
+  <defs>
+    <style>
+      .label {{ font-family: 'Courier New', monospace; font-size: 10px; fill: #9d8ec7; letter-spacing: 3px; }}
+      .count {{ font-family: 'Courier New', monospace; font-size: 11px; fill: #e0d0ff; font-weight: bold; letter-spacing: 1px; }}
+      .pct   {{ font-family: 'Courier New', monospace; font-size: 9px;  fill: #b09ee0; }}
+    </style>
+  </defs>
+  <rect width="680" height="90" fill="#08060f"/>
+  <rect width="680" height="90" fill="#0d0a1a"/>
+  <rect x="0"   y="0"  width="680" height="4"  fill="#1e1535"/>
+  <rect x="0"   y="86" width="680" height="4"  fill="#1e1535"/>
+  <rect x="0"   y="0"  width="4"   height="90" fill="#1e1535"/>
+  <rect x="676" y="0"  width="4"   height="90" fill="#1e1535"/>
+  <rect x="4"   y="4"  width="4"  height="4"  fill="#1e1535"/>
+  <rect x="672" y="4"  width="4"  height="4"  fill="#1e1535"/>
+  <rect x="4"   y="82" width="4"  height="4"  fill="#1e1535"/>
+  <rect x="672" y="82" width="4"  height="4"  fill="#1e1535"/>
+  <rect x="40"  y="10" width="4" height="4" fill="#ffffff"/>
+  <rect x="200" y="16" width="4" height="4" fill="#e8d8ff"/>
+  <rect x="380" y="8"  width="4" height="4" fill="#ffffff"/>
+  <rect x="540" y="18" width="4" height="4" fill="#d8eeff"/>
+  <rect x="628" y="10" width="4" height="4" fill="#ffffff"/>
+  <rect x="130" y="26" width="4" height="4" fill="#ffe8d8"/>
+  <rect x="460" y="14" width="4" height="4" fill="#e8d8ff"/>
+  <rect x="70"  y="20" width="2" height="2" fill="#c8b8e8"/>
+  <rect x="110" y="8"  width="2" height="2" fill="#ffffff" opacity="0.9"/>
+  <rect x="155" y="32" width="2" height="2" fill="#b8d8ff"/>
+  <rect x="240" y="10" width="2" height="2" fill="#ffffff"/>
+  <rect x="280" y="28" width="2" height="2" fill="#d8c8ff"/>
+  <rect x="320" y="14" width="2" height="2" fill="#ffffff" opacity="0.8"/>
+  <rect x="350" y="30" width="2" height="2" fill="#c8e8d8"/>
+  <rect x="415" y="22" width="2" height="2" fill="#ffffff"/>
+  <rect x="445" y="8"  width="2" height="2" fill="#ffe8b8"/>
+  <rect x="490" y="28" width="2" height="2" fill="#d8b8ff"/>
+  <rect x="510" y="10" width="2" height="2" fill="#ffffff" opacity="0.9"/>
+  <rect x="570" y="24" width="2" height="2" fill="#b8d8ff"/>
+  <rect x="600" y="8"  width="2" height="2" fill="#ffffff"/>
+  <rect x="650" y="26" width="2" height="2" fill="#e8d8ff"/>
+  <rect x="86"  y="32" width="2" height="2" fill="#ffffff" opacity="0.7"/>
+  <rect x="170" y="12" width="2" height="2" fill="#ffd8c8" opacity="0.8"/>
+  <rect x="310" y="34" width="2" height="2" fill="#c8d8ff"/>
+  <rect x="560" y="32" width="2" height="2" fill="#ffffff" opacity="0.7"/>
+  <rect x="56"  y="30" width="1" height="1" fill="#6050a0"/>
+  <rect x="95"  y="14" width="1" height="1" fill="#8070b8"/>
+  <rect x="220" y="24" width="1" height="1" fill="#7060a8"/>
+  <rect x="260" y="16" width="1" height="1" fill="#6858a0"/>
+  <rect x="336" y="22" width="1" height="1" fill="#8878c0"/>
+  <rect x="396" y="30" width="1" height="1" fill="#7060a8"/>
+  <rect x="430" y="18" width="1" height="1" fill="#6050a0"/>
+  <rect x="478" y="22" width="1" height="1" fill="#8070b8"/>
+  <rect x="525" y="30" width="1" height="1" fill="#7868b0"/>
+  <rect x="586" y="16" width="1" height="1" fill="#6050a0"/>
+  <rect x="665" y="18" width="1" height="1" fill="#8070b8"/>
+  <rect x="644" y="4"  width="4" height="4"  fill="#f5e6c0"/>
+  <rect x="640" y="8"  width="4" height="4"  fill="#f5e6c0"/>
+  <rect x="644" y="8"  width="4" height="4"  fill="#ffe9b8"/>
+  <rect x="640" y="12" width="4" height="4"  fill="#f5e6c0"/>
+  <rect x="644" y="12" width="4" height="4"  fill="#ffe9b8"/>
+  <rect x="644" y="16" width="4" height="4"  fill="#f5e6c0"/>
+  <rect x="648" y="4"  width="4" height="4"  fill="#0d0a1a"/>
+  <rect x="648" y="8"  width="4" height="4"  fill="#0d0a1a"/>
+  <rect x="648" y="12" width="4" height="4"  fill="#0d0a1a"/>
+  <rect x="648" y="16" width="4" height="4"  fill="#0d0a1a"/>
+  <rect x="644" y="4"  width="4" height="4"  fill="#0d0a1a"/>
+  <text x="20"  y="52" class="label">PROGRESSO</text>
+  <text x="660" y="52" class="count" text-anchor="end">{total} / 100</text>
+  <rect x="20" y="58" width="640" height="16" fill="#1a1030"/>
+  <rect x="20" y="58" width="640" height="2"  fill="#2e1f52"/>
+  <rect x="20" y="72" width="640" height="2"  fill="#2e1f52"/>
+  <rect x="20" y="58" width="2"   height="16" fill="#2e1f52"/>
+  <rect x="658" y="58" width="2"  height="16" fill="#2e1f52"/>
+  <rect x="22" y="60" width="{f1}" height="12" fill="#5b21b6"/>
+  <rect x="22" y="60" width="{f2}" height="12" fill="#6d28d9"/>
+  <rect x="22" y="60" width="{f3}" height="12" fill="#7c3aed"/>
+  <rect x="22" y="60" width="{f1}" height="3"  fill="#a78bfa" opacity="0.35"/>
+  <rect x="{tip_x}" y="60" width="4" height="12" fill="#8b5cf6"/>
+  <rect x="180" y="58" width="2" height="16" fill="#2e1f52"/>
+  <rect x="340" y="58" width="2" height="16" fill="#2e1f52"/>
+  <rect x="500" y="58" width="2" height="16" fill="#2e1f52"/>
+  <text x="340" y="69" class="pct" text-anchor="middle">{total}%</text>
+  <rect x="80"  y="54" width="2" height="2" fill="#b8ff78" opacity="0.7"/>
+  <rect x="120" y="56" width="2" height="2" fill="#78ffcc" opacity="0.6"/>
+  <rect x="60"  y="56" width="2" height="2" fill="#ffe478" opacity="0.5"/>
+</svg>"""
 
           with open("progress.svg", "w", encoding="utf-8") as f:
               f.write(svg)
-          print(f"progress.svg: {total}/100")
+          print(f"✅ progress.svg pixel art: {total}/100")
           PYEOF
 
       - name: Atualizar badges no README
@@ -117,7 +178,7 @@ jobs:
 
           with open("README.md", "w", encoding="utf-8") as f:
               f.write(updated)
-          print(f"README: {total}/100 (Java: {java}, Python: {python})")
+          print(f"✅ README: {total}/100 (Java: {java}, Python: {python})")
           PYEOF
 
       - name: Commit das alterações
@@ -126,5 +187,4 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add README.md progress.svg
           git diff --staged --quiet || git commit -m "chore: atualiza progresso para ${{ steps.count.outputs.total }}/100 desafios [skip ci]"
-          git pull --rebase origin main
           git push
