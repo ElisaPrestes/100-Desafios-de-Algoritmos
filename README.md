@@ -9,14 +9,14 @@
 
 ---
 
-<!-- PROGRESS_START -->
+<!-- PROGRESS_START — não edite este bloco, o GitHub Actions atualiza automaticamente -->
 <div align="center">
 
 ![Progresso](./progress.svg)
 
-![badge](https://img.shields.io/badge/Desafios%20Conclu%C3%ADdos-22%20%2F%20100-1d4ed8?style=for-the-badge&logo=checkmarx&logoColor=white)
+![badge](https://img.shields.io/badge/Desafios%20Conclu%C3%ADdos-21%20%2F%20100-1d4ed8?style=for-the-badge&logo=checkmarx&logoColor=white)
 &nbsp;
-![Java](https://img.shields.io/badge/Java-15%20arquivos-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Java](https://img.shields.io/badge/Java-14%20arquivos-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
 &nbsp;
 ![Python](https://img.shields.io/badge/Python-7%20arquivos-3776AB?style=for-the-badge&logo=python&logoColor=white)
 
